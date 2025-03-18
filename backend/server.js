@@ -30,10 +30,13 @@ connectDB()
 
 import userRouter from "./routes/user.route.js"
 import blogRouter from './routes/blog.route.js'
+import { errorHandler } from "./middleware/errorHandler.js";
 
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/blogs", blogRouter);
 
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
