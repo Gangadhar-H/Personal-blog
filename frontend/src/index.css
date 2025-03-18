@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #2c3e50;
+    /* Dark blue-gray */
+    --secondary-color: #3498db;
+    /* Blue */
+    --accent-color: #e74c3c;
+    /* Red */
+    --background-color: #ecf0f1;
+    /* Light gray */
+    --text-color: #2c3e50;
+    /* Dark gray */
+}
+
+/* Typography */
+html {
+    font-size: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+}

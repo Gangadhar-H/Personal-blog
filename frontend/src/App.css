@@ -1,0 +1,23 @@
+.main-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    background-color: #f0f0f0;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+}
+
+.nav-link:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.active-link {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #333;
+}
