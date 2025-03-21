@@ -18,8 +18,18 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: [true, 'Password is required'],
+        required: function () { return !this.oauthProvider; },
         minlength: [8, 'Password must be at least 8 characters long']
+    },
+    oauthProvider: {
+        type: String,
+        enum: ["google", "github"],
+        default: null,
+    },
+    oauthUID: {
+        type: String,
+        unique: true,
+        sparse: true
     },
     createdAt: {
         type: Date,

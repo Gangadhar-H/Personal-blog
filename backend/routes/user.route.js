@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { verifyJWT } from "../middleware/auth.middleware.js";
-import { loginUser, logoutUser, registerUser, refreshAccessToken, getUserProfile } from "../controllers/user.controller.js";
+import { loginUser, logoutUser, registerUser, refreshAccessToken, getUserProfile, verifyFirebaseUser } from "../controllers/user.controller.js";
 
 const router = Router();
 
+router.route("/firebase").post(verifyFirebaseUser);
 router.route("/register").post(registerUser);
 router.route("/login").post(loginUser);
 

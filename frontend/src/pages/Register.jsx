@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { onRegisterSubmit } from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../redux/authSlice.js';
+import { auth, googleProvider, signInWithPopup } from '../firebaseConfig.js';
 
 function Register() {
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const initialState = {
         username: '',
@@ -24,6 +28,35 @@ function Register() {
         if (formData.password.length < 6) errors.password = "Password must be at least 6 characters";
         return errors;
     };
+
+    const handleGoogleLogin = async () => {
+        try {
+            const result = await signInWithPopup(auth, googleProvider);
+
+            const token = await result.user.getIdToken();
+            console.log("Firebase Token: ", token);
+
+            const response = await fetch("http://localhost:5000/api/v1/user/firebase", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token, provider: "google" }),
+                credentials: "include", // Allows cookies to be set from the backend
+            });
+
+            const data = await response.json();
+            console.log("Backend Response:", data.loggedInUser);
+
+            dispatch(loginSuccess(data.loggedInUser));
+
+            if (response.ok) {
+                navigate("/");
+                window.location.reload;
+            }
+
+        } catch (error) {
+            console.error("Google Login Error:", error);
+        }
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -111,6 +144,8 @@ function Register() {
                         Register
                     </button>
                 </form>
+
+                <button onClick={handleGoogleLogin}>Sign up with Google</button>
             </div>
         </div>
     )

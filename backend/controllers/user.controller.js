@@ -1,6 +1,10 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import dotenv from 'dotenv';
+import admin from "../utils/firebase.js";
+
+dotenv.config();
 
 const generateAccessTokenAndRefreshTokens = async (userId) => {
     try {
@@ -13,6 +17,50 @@ const generateAccessTokenAndRefreshTokens = async (userId) => {
     }
     catch (err) {
         console.log("Something went wrong while generating tokens", + err);
+    }
+}
+
+// Google oAuth
+const verifyFirebaseUser = async (req, res) => {
+    try {
+        const { token, provider } = req.body;
+        if (!token) return res.status(401).json({ message: 'No token provided' })
+
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        const { email, name, uid } = decodedToken;
+
+        let user = await User.findOne({ email });
+
+        if (!user) {
+            user = await User.create({
+                username: name,
+                email,
+                oauthProvider: provider || "google",
+                oauthUID: uid,
+            });
+        }
+
+        const loggedInUser = await User.findOne({ email });
+        const { accessToken, refreshToken } = await generateAccessTokenAndRefreshTokens(user._id);
+
+        const options = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "None",
+        }
+
+        console.log(loggedInUser);
+
+        return res
+            .status(200)
+            .cookie("accessToken", accessToken, options)
+            .cookie("refreshToken", refreshToken, options)
+            .json({ loggedInUser, accessToken, refreshToken });
+
+
+    } catch (error) {
+        console.error("Firebase Auth Error:", error);
+        res.status(401).json({ message: "Invalid Firebase Token" });
     }
 }
 
@@ -152,7 +200,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             httpOnly: true,
             secure: true
         }
-        const { accessToken, newRefreshToken } = await generateAccessAndRefreshTokens(user._id);
+        const { accessToken, newRefreshToken } = await generateAccessTokenAndRefreshTokens(user._id);
 
         return res.status(200)
             .cookie("accessToken", accessToken, options)
@@ -172,4 +220,5 @@ export {
     logoutUser,
     getUserProfile,
     refreshAccessToken,
+    verifyFirebaseUser
 }
