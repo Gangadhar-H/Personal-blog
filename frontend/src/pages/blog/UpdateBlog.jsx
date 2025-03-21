@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchSinglePost, onPostUpdate } from '../services/api';
+import { fetchSinglePost, onPostUpdate } from '../../services/api';
 
 function UpdateBlog() {
 

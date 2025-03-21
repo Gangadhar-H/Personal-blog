@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { fetchPosts, fetchUserProfile } from '../services/api';
-import LoadingSpinner from '../components/LoadingSpinner';
-import BlogPostCard from '../components/BlogPostCard';
+import { fetchPosts, fetchUserProfile } from '../../services/api';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import BlogPostCard from '../../components/BlogPostCard';
 import { Link } from 'react-router-dom';
 
 function YourBlogs() {

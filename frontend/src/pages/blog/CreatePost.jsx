@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { onPostSubmit } from '../services/api.js';
+import { onPostSubmit } from '../../services/api.js';
 
 function CreatePost() {
 
@@ -22,6 +22,7 @@ function CreatePost() {
         } else {
             console.log("Post created successfully!");
             navigate("/");
+            window.location.reload;
         }
     };
 

@@ -1,16 +1,16 @@
 
 import { BrowserRouter as Router, Routes, Route, NavLink, Link, useNavigate } from "react-router-dom";
 import './App.css'
-import BlogPostDetails from './pages/BlogPostDetails';
-import BlogPostList from './pages/BlogPostList'
-import CreatePost from "./pages/createPost";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import ProfilePage from "./pages/ProfilePage";
+import BlogPostDetails from './pages/blog/BlogPostDetails';
+import BlogPostList from './pages/blog/BlogPostList'
+import CreatePost from "./pages/blog/CreatePost";
+import Register from "./pages/user/Register";
+import Login from "./pages/user/Login";
+import ProfilePage from "./pages/blog/ProfilePage";
 import { useEffect, useState } from "react";
 import { checkAuth, onLogoutSubmit } from "./services/api.js";
-import UpdateBlog from "./pages/UpdateBlog";
-import YourBlogs from "./pages/YourBlogs";
+import UpdateBlog from "./pages/blog/UpdateBlog";
+import YourBlogs from "./pages/blog/YourBlogs";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, logoutSuccess } from "./redux/authSlice";
 

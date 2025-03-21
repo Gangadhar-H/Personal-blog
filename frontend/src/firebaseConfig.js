@@ -8,12 +8,12 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
     projectId: "personal-blog-552c4",
     storageBucket: "personal-blog-552c4.firebasestorage.app",
     messagingSenderId: "927359965115",
-    appId: REACT_APP_FIREBASE_APPID,
+    appId: import.meta.env.VITE_APP_FIREBASE_APPID,
     measurementId: "G-3RLY8KW0T0"
 };
 

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import BlogPostCard from '../components/BlogPostCard'
-import LoadingSpinner from '../components/LoadingSpinner';
-import { fetchPosts } from '../services/api';
+import BlogPostCard from '../../components/BlogPostCard'
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { fetchPosts } from '../../services/api';
 
 
 function BlogPostList() {

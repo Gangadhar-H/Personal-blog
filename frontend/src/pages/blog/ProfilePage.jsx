@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { logoutSuccess } from '../redux/authSlice';
-import { onLogoutSubmit } from '../services/api';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { logoutSuccess } from '../../redux/authSlice';
+import { onLogoutSubmit } from '../../services/api';
 
 function ProfilePage() {
 
@@ -28,7 +28,7 @@ function ProfilePage() {
 
             {/* Dropdown Menu */}
             {open && (
-                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-4 border">
+                <div className="absolute right-0 mt-2  bg-white shadow-lg rounded-lg p-4 border z-20 h-fit w-fit">
                     {user ? (
                         <>
                             <p className="text-gray-800 font-semibold">{user?.username}</p>

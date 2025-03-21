@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { checkAuthor, fetchSinglePost, onPostDelete } from '../services/api';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import { checkAuthor, fetchSinglePost, onPostDelete } from '../../services/api';
 
 function BlogPostDetails() {
 
