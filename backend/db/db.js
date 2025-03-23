@@ -1,11 +1,8 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(`${process.env.MONGODB_URL}/${process.env.DB_NAME}`, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
+        await mongoose.connect(`${process.env.MONGODB_URL}/${process.env.DB_NAME}`);
         console.log('MongoDB connection successful');
     } catch (error) {
         console.error('MongoDB connection failed', error);

@@ -94,6 +94,22 @@ const checkAuthor = async (id) => {
     }
 }
 
+const toggleLikePost = async (id) => {
+    try {
+        const response = await axios.post(`${API_URL}/blogs/posts/${id}/likes`, {}, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error getting post:', error.response?.data || error.message);
+        return { error: error.response?.data || "Something went wrong" };
+    }
+}
+
 // User APIs
 
 const onRegisterSubmit = async (data) => {
@@ -170,9 +186,10 @@ export {
     onPostDelete,
     onPostUpdate,
     checkAuthor,
+    toggleLikePost,
     onRegisterSubmit,
     onLoginSubmit,
     checkAuth,
     onLogoutSubmit,
-    fetchUserProfile
+    fetchUserProfile,
 };

@@ -98,7 +98,35 @@ const checkAuthor = asyncHandler(async (req, res, next) => {
     res.status(200).json({ message: "Authorized user" });
 });
 
+// additional featuers
 
+const toggleLike = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+    const { id: blogId } = req.params;
+
+    const blog = await BlogPost.findById(blogId);
+    if (!blog) {
+        return res.status(404).json({ message: "Blog not found" });
+    }
+
+    const hasLiked = blog.likes.includes(userId);
+
+    if (hasLiked) {
+        blog.likes = blog.likes.filter((id) => id.toString() !== userId.toString());
+    } else {
+        blog.likes.push(userId);
+    }
+
+    await blog.save();
+
+    res.status(200).json({
+        success: true,
+        message: hasLiked ? false : true,
+        likeCounts: blog.likes.length,
+        likes: blog.likes
+    });
+
+});
 
 export {
     getPosts,
@@ -106,5 +134,6 @@ export {
     createPost,
     updatePost,
     deletePost,
-    checkAuthor
+    checkAuthor,
+    toggleLike
 }

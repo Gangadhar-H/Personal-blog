@@ -32,15 +32,19 @@ function BlogPostList() {
             <div className="space-y-6">
                 {posts.length > 0 ? (
                     posts.map((post) => (
-                        <Link key={post._id} to={`/post/${post._id}`}>
-                            <BlogPostCard
-                                title={post.title}
-                                description={post.content}
-                                author={post.author?.username || "Unknown"}
-                                createdAt={post.createdAt}
-                                showAuthor={true}
-                            />
-                        </Link>
+                        <div key={post._id}>
+                            <Link to={`/post/${post._id}`}>
+                                <BlogPostCard
+                                    title={post.title}
+                                    description={post.content}
+                                    author={post.author?.username || "Unknown"}
+                                    createdAt={post.createdAt}
+                                    showAuthor={true}
+                                    showLikes={post.likes.length}
+                                />
+                                <hr />
+                            </Link>
+                        </div>
                     ))
                 ) : (
                     <p className="text-center text-gray-500">No blog posts available.</p>

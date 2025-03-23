@@ -16,6 +16,10 @@ const blogPostSchema = new Schema({
         ref: 'User',
         required: [true, 'Author is required']
     },
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    }],
     createdAt: {
         type: Date,
         default: Date.now

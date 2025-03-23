@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { checkAuthor, fetchSinglePost, onPostDelete } from '../../services/api';
+import { checkAuthor, toggleLikePost, fetchSinglePost, onPostDelete } from '../../services/api';
+import { useSelector } from 'react-redux';
 
 function BlogPostDetails() {
 
@@ -10,6 +11,9 @@ function BlogPostDetails() {
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isAuth, setIsAuth] = useState(false);
+    const [likesCount, setLikesCount] = useState(0);
+    const [hasLiked, setHasLiked] = useState(false);
+    const user = useSelector((state) => state.auth.user);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -17,6 +21,10 @@ function BlogPostDetails() {
             console.log(data);
             setPost(data);
             setLoading(false);
+            setLikesCount(data.likes.length);
+            if (user && user._id) {
+                setHasLiked(data.likes.includes(user._id));
+            }
         }
         fetchPost();
 
@@ -26,7 +34,7 @@ function BlogPostDetails() {
             setIsAuth(data);
         }
         fetchUser();
-    }, [id]);
+    }, [id, user]);
 
 
     const handleDelete = async () => {
@@ -34,6 +42,16 @@ function BlogPostDetails() {
         console.log(deletedPost);
         navigate('/');
     }
+
+    const handleToggleLike = async () => {
+        try {
+            const response = await toggleLikePost(id); // Call toggle like API
+            setHasLiked(response.message); // Update like/unlike status (true = liked, false = unliked)
+            setLikesCount(response.likeCounts); // Update the like count
+        } catch (error) {
+            console.error('Error toggling like:', error);
+        }
+    };
 
     if (loading) return <LoadingSpinner />;
     if (!post) return <p className="text-center text-red-500">Post not found</p>;
@@ -80,6 +98,19 @@ function BlogPostDetails() {
                                 </div>
                             )}
                         </div>
+
+                        {/* Like Button */}
+                        <div className="mt-4 flex items-center gap-4">
+                            <button
+                                onClick={handleToggleLike}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-md transition duration-300 
+                                ${hasLiked ? 'bg-red-500 text-white' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
+                            >
+                                {hasLiked ? '❤️ Unlike' : '🤍 Like'}
+                            </button>
+                            <span>{likesCount} {likesCount === 1 ? 'Like' : 'Likes'}</span>
+                        </div>
+
 
                         {/* Buttons Section (Stays at Bottom) */}
                         <div className="flex justify-between items-center mt-6 border-t pt-4">
