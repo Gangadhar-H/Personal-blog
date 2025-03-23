@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { onPostSubmit } from '../../services/api.js';
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 function CreatePost() {
 
@@ -31,8 +33,13 @@ function CreatePost() {
         setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
+    const handleContentChange = (value) => {
+        setFormData((prev) => ({ ...prev, content: value }));
+    };
+
+
     return (
-        <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-8 shadow-md rounded-lg">
+        <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-8 shadow-md rounded-lg h-full overflow-auto">
             {/* Title */}
             <div className="mb-4">
                 <label htmlFor="title" className="block text-lg font-medium text-gray-700 mb-1">
@@ -51,32 +58,33 @@ function CreatePost() {
             </div>
 
             {/* Content */}
-            <div className="mb-4">
+            <div className="mb-4 flex-1 overflow-auto">
                 <label htmlFor="content" className="block text-lg font-medium text-gray-700 mb-1">
                     Content:
                 </label>
-                <textarea
-                    id="content"
+
+                <ReactQuill
                     name="content"
+                    id="content"
+                    theme="snow"
                     value={formData.content}
-                    onChange={handleChange}
-                    required
-                    minLength="10"
-                    className="w-full h-32 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none"
-                    placeholder="Write your content here..."
+                    onChange={handleContentChange}
+                    placeholder="Write your blog content here..."
+                    className="min-h-[30vh] h-full max-h-[60vh] overflow-auto"
                 />
             </div>
 
-
-
             {/* Submit Button */}
-            <button
-                type="submit"
-                className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300"
-            >
-                Submit
-            </button>
+            <div>
+                <button
+                    type="submit"
+                    className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300"
+                >
+                    Submit
+                </button>
+            </div>
         </form>
+
     );
 
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchSinglePost, onPostUpdate } from '../../services/api';
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 function UpdateBlog() {
 
@@ -35,6 +37,10 @@ function UpdateBlog() {
         setFormData({ ...formData, [name]: value });
     }
 
+    const handleContentChange = (value) => {
+        setFormData((prev) => ({ ...prev, content: value }));
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const updatedPost = await onPostUpdate(id, formData);
@@ -66,14 +72,15 @@ function UpdateBlog() {
 
                     <div>
                         <label className="block font-medium text-gray-700">Content:</label>
-                        <textarea
+
+                        <ReactQuill
                             name="content"
+                            id="content"
+                            theme="snow"
                             value={formData.content}
-                            onChange={handleChange}
-                            required
-                            rows="5"
-                            className="w-full mt-1 p-2 border rounded-lg"
-                        ></textarea>
+                            onChange={handleContentChange}
+                            placeholder="Write your blog content here..."
+                        />
                     </div>
 
 

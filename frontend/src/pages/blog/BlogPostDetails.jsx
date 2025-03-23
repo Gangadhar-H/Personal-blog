@@ -64,7 +64,7 @@ function BlogPostDetails() {
                             </div>
 
                             {/* Content */}
-                            <p className="text-gray-700 leading-relaxed text-lg">{post.content}</p>
+                            <div dangerouslySetInnerHTML={{ __html: post.content }}></div>
 
                             {/* Tags Section (Optional) */}
                             {post.tags && post.tags.length > 0 && (
