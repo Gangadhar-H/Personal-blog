@@ -21,6 +21,8 @@
     "react-quill-new": "^3.4.4",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.3.0",
+    "react-share": "^5.2.2",
+    "redux-persist": "^6.0.0",
     "style-loader": "^4.0.0",
     "tools": "^0.0.0"
   },

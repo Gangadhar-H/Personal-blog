@@ -179,6 +179,18 @@ const fetchUserProfile = async () => {
     }
 }
 
+const updateProfile = async (userData) => {
+    try {
+        const response = await axios.put(`${API_URL}/user/profile/update`, userData, {
+            withCredentials: true,
+        });
+        console.log("Response Data", response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating profile:', error.response?.data || error.message);
+    }
+}
+
 export {
     fetchPosts,
     fetchSinglePost,
@@ -192,4 +204,5 @@ export {
     checkAuth,
     onLogoutSubmit,
     fetchUserProfile,
+    updateProfile
 };

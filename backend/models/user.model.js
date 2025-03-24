@@ -21,6 +21,14 @@ const userSchema = new Schema({
         required: function () { return !this.oauthProvider; },
         minlength: [8, 'Password must be at least 8 characters long']
     },
+    bio: {
+        type: String,
+        default: '',
+    },
+    bookmarks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "BlogPost"
+    }],
     oauthProvider: {
         type: String,
         enum: ["google", "github"],

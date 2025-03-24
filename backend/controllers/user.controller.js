@@ -172,11 +172,25 @@ const getUserProfile = asyncHandler(async (req, res) => {
         return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json({
-        _id: user._id,
-        username: user.username,
-        email: user.email,
+        user
     });
 });
+
+const updateUserProfile = asyncHandler(async (req, res) => {
+    const { username, bio } = req.body;
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    user.username = username;
+    user.bio = bio;
+    await user.save();
+
+    res.status(200).json({
+        message: "Profile updated successfully",
+        user
+    });
+
+})
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshAccessToken || req.body.refreshAccessToken;
@@ -219,6 +233,7 @@ export {
     loginUser,
     logoutUser,
     getUserProfile,
+    updateUserProfile,
     refreshAccessToken,
     verifyFirebaseUser
 }

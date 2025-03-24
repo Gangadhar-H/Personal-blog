@@ -3,6 +3,9 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { checkAuthor, toggleLikePost, fetchSinglePost, onPostDelete } from '../../services/api';
 import { useSelector } from 'react-redux';
+import { FacebookShareButton, TwitterShareButton, WhatsappShareButton, LinkedinShareButton } from 'react-share';
+import { FaFacebook, FaTwitter, FaWhatsapp, FaLinkedin } from 'react-icons/fa';
+
 
 function BlogPostDetails() {
 
@@ -22,9 +25,7 @@ function BlogPostDetails() {
             setPost(data);
             setLoading(false);
             setLikesCount(data.likes.length);
-            if (user && user._id) {
-                setHasLiked(data.likes.includes(user._id));
-            }
+            setHasLiked(data.likes.includes(user._id));
         }
         fetchPost();
 
@@ -52,6 +53,8 @@ function BlogPostDetails() {
             console.error('Error toggling like:', error);
         }
     };
+
+    const shareUrl = window.location.href;
 
     if (loading) return <LoadingSpinner />;
     if (!post) return <p className="text-center text-red-500">Post not found</p>;
@@ -101,16 +104,41 @@ function BlogPostDetails() {
 
                         {/* Like Button */}
                         <div className="mt-4 flex items-center gap-4">
-                            <button
-                                onClick={handleToggleLike}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-md transition duration-300 
+                            {user && (
+
+                                <button
+                                    onClick={handleToggleLike}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-md transition duration-300 
                                 ${hasLiked ? 'bg-red-500 text-white' : 'bg-gray-300 text-black hover:bg-gray-400'}`}
-                            >
-                                {hasLiked ? '❤️ Unlike' : '🤍 Like'}
-                            </button>
+                                >
+                                    {hasLiked ? '❤️ Unlike' : '🤍 Like'}
+                                </button>
+                            )}
                             <span>{likesCount} {likesCount === 1 ? 'Like' : 'Likes'}</span>
                         </div>
 
+                        {/* Social Share Buttons */}
+                        {user && (
+
+
+                            <div className="flex gap-3">
+                                <FacebookShareButton url={shareUrl} quote={post.title} hashtag="#blog">
+                                    <FaFacebook className="text-blue-600 hover:text-blue-800 text-2xl" />
+                                </FacebookShareButton>
+
+                                <TwitterShareButton url={shareUrl} title={post.title} hashtags={['blog', 'react']}>
+                                    <FaTwitter className="text-blue-400 hover:text-blue-600 text-2xl" />
+                                </TwitterShareButton>
+
+                                <WhatsappShareButton url={shareUrl} title={post.title}>
+                                    <FaWhatsapp className="text-green-500 hover:text-green-700 text-2xl" />
+                                </WhatsappShareButton>
+
+                                <LinkedinShareButton url={shareUrl} title={post.title} summary={post.content}>
+                                    <FaLinkedin className="text-blue-700 hover:text-blue-900 text-2xl" />
+                                </LinkedinShareButton>
+                            </div>
+                        )}
 
                         {/* Buttons Section (Stays at Bottom) */}
                         <div className="flex justify-between items-center mt-6 border-t pt-4">

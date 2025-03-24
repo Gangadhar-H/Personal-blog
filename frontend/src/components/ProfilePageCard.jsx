@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { logoutSuccess } from '../../redux/authSlice';
-import { onLogoutSubmit } from '../../services/api';
+import LoadingSpinner from './LoadingSpinner';
+import { logoutSuccess } from '../redux/authSlice';
+import { onLogoutSubmit } from '../services/api';
 
-function ProfilePage() {
+function ProfilePageCard() {
 
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
@@ -18,6 +18,8 @@ function ProfilePage() {
         dispatch(logoutSuccess());
         navigate("/login");
     }
+
+
 
     return (
         <div className="relative">
@@ -34,8 +36,11 @@ function ProfilePage() {
                             <p className="text-gray-800 font-semibold">{user?.username}</p>
                             <p className="text-gray-600 text-sm">{user?.email}</p>
                             <hr className="my-2" />
-                            <button className="text-blue-600 text-sm w-full text-left hover:underline">
-                                Edit Profile
+                            <button
+                                onClick={() => { navigate("/profile") }}
+                                className="text-blue-600 text-sm w-full text-left hover:underline mt-2"
+                            >
+                                See more...
                             </button>
                             <button
                                 onClick={handleLogout}
@@ -53,4 +58,4 @@ function ProfilePage() {
     );
 }
 
-export default ProfilePage
+export default ProfilePageCard

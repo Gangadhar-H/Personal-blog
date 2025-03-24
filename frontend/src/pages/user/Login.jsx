@@ -38,8 +38,8 @@ function Login() {
             if (result.error) {
                 setErrorMessage(result.error);
             } else {
-                console.log("Login successful!");
-                dispatch(loginSuccess(result));
+                console.log("Login successful!", result);
+                dispatch(loginSuccess(result.loggedInUser));
                 navigate("/");
             }
         } catch (error) {

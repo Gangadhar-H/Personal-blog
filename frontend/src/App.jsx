@@ -6,13 +6,15 @@ import BlogPostList from './pages/blog/BlogPostList'
 import CreatePost from "./pages/blog/CreatePost";
 import Register from "./pages/user/Register";
 import Login from "./pages/user/Login";
-import ProfilePage from "./pages/blog/ProfilePage";
+import ProfilePageCard from "./components/ProfilePageCard";
 import { useEffect, useState } from "react";
 import { checkAuth, onLogoutSubmit } from "./services/api.js";
 import UpdateBlog from "./pages/blog/UpdateBlog";
 import YourBlogs from "./pages/blog/YourBlogs";
 import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess, logoutSuccess } from "./redux/authSlice";
+import ProfilePage from "./pages/user/ProfilePage";
+import EditProfile from "./pages/user/EditProfile";
 
 
 function App() {
@@ -25,7 +27,7 @@ function App() {
       const authStatus = await checkAuth();
       console.log(authStatus);
       if (authStatus) {
-        dispatch(loginSuccess(authStatus))
+        dispatch(loginSuccess(authStatus.user))
       } else {
         dispatch(logoutSuccess())
       }
@@ -59,7 +61,7 @@ function App() {
 
         {/* ✅ Show Login/Register if logged out, Logout if logged in */}
         {isLoggedIn ? (
-          <ProfilePage />
+          <ProfilePageCard />
         ) : (
           <div>
             <NavLink to="/login" className="text-gray-500">Login </NavLink>/
@@ -77,6 +79,8 @@ function App() {
           <Route path="/your-blogs" element={<YourBlogs />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Routes>
       </main>
     </div>
