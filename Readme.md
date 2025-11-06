@@ -99,3 +99,26 @@ Frontend will run on http://localhost:5173
  Email verification
  Password reset functionality
 
+
+
+
+# Project Screenshots
+
+### 🏠 Home Page
+![Home Page](./assets/screenshots/home-page.png)
+
+### Post page
+![Post Page](./assets/screenshots/post-page.png)
+
+### Post page 2
+![Post Page](./assets/screenshots/Post-page2.png)
+
+### Login Page
+![Login Page](./assets/screenshots/login-page.png)
+
+### Profile Page
+![Dashboard](./assets/screenshots/Profile-page.png)
+
+### Create Post Page
+![Dashboard](./assets/screenshots/create-post-page.png)
+

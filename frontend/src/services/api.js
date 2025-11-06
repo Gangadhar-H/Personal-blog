@@ -90,6 +90,7 @@ const checkAuthor = async (id) => {
         }
 
     } catch (error) {
+        console.log(error);
         return false;
     }
 }
@@ -162,13 +163,14 @@ const checkAuth = async () => {
 
         return response.data;
     } catch (error) {
+        console.log(error);
         return null;
     }
 }
 
 const onLogoutSubmit = async () => {
     try {
-        const response = await axios.post(`${API_URL}/user/logout`, {}, {
+        await axios.post(`${API_URL}/user/logout`, {}, {
             withCredentials: true,
         })
 
