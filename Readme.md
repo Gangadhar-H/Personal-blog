@@ -117,8 +117,12 @@ Frontend will run on http://localhost:5173
 ![Login Page](./assets/screenshots/login-page.png)
 
 ### Profile Page
-![Dashboard](./assets/screenshots/Profile-page.png)
+![Profile](./assets/screenshots/Profile-page.png)
 
 ### Create Post Page
-![Dashboard](./assets/screenshots/create-post-page.png)
+![Create post](./assets/screenshots/create-post-page.png)
+
+### Update post Page
+![Update post](./assets/screenshots/update-post.png)
+
 
