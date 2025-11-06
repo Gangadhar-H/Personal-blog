@@ -126,3 +126,7 @@ Frontend will run on http://localhost:5173
 ![Update post](./assets/screenshots/update-post.png)
 
 
+## 🧪 Postman Collection
+You can test the API using the provided Postman collection:
+[Download Collection](./Blog-assignment.postman_collection.json)
+
