@@ -25,6 +25,8 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage("");
+        setErrors({});
+
         const validationErrors = validateForm();
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -36,17 +38,22 @@ function Login() {
             const result = await onLoginSubmit(formData);
 
             if (result.error) {
-                setErrorMessage(result.error);
+                // Fix: Extract the message string from the error object
+                const errorMsg = typeof result.error === 'object'
+                    ? result.error.message || JSON.stringify(result.error)
+                    : result.error;
+                setErrorMessage(errorMsg);
             } else {
                 console.log("Login successful!", result);
                 dispatch(loginSuccess(result.loggedInUser));
                 navigate("/");
             }
         } catch (error) {
-            setErrorMessage("Something went wrong. Please try again.");
+            // Fix: Make sure error message is always a string
+            const errorMsg = error.response?.data?.message || error.message || "Something went wrong. Please try again.";
+            setErrorMessage(errorMsg);
         }
         setLoading(false);
-
     }
 
     const handleChange = (e) => {
@@ -59,7 +66,12 @@ function Login() {
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
                 <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
 
-                {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
+                {/* Fix: Ensure errorMessage is always rendered as a string */}
+                {errorMessage && (
+                    <p className="text-red-500 text-center mb-4 bg-red-50 p-3 rounded">
+                        {String(errorMessage)}
+                    </p>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Email */}
@@ -73,7 +85,7 @@ function Login() {
                             className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                             placeholder="Enter email"
                         />
-                        {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
                     </div>
 
                     {/* Password */}
@@ -87,22 +99,29 @@ function Login() {
                             className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none"
                             placeholder="Enter password"
                         />
-                        {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                     </div>
 
                     {/* Submit Button */}
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                        className="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition duration-300 disabled:bg-blue-400"
                     >
                         {loading ? "Logging in..." : "Login"}
                     </button>
                 </form>
 
-                <div className=''>
+                <div className="mt-4">
                     <GoogleSignInButton action="login" />
                 </div>
+
+                <p className="text-center text-gray-600 text-sm mt-4">
+                    Don't have an account?{' '}
+                    <a href="/register" className="text-blue-600 hover:underline">
+                        Register here
+                    </a>
+                </p>
             </div>
         </div>
     )

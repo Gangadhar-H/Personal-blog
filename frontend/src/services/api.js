@@ -130,7 +130,7 @@ const onRegisterSubmit = async (data) => {
 const onLoginSubmit = async (data) => {
     try {
         const response = await axios.post(`${API_URL}/user/login`, data, {
-            header: {
+            headers: {
                 'Content-Type': 'application/json',
             },
             withCredentials: true
@@ -139,7 +139,18 @@ const onLoginSubmit = async (data) => {
         return response.data;
     } catch (error) {
         console.error('Error Logging in:', error.response?.data || error.message);
-        return { error: error.response?.data || "Something went wrong" };
+
+        // Fix: Return a properly formatted error string, not an object
+        const errorMessage = error.response?.data?.message
+            || error.response?.data
+            || error.message
+            || "Something went wrong";
+
+        return {
+            error: typeof errorMessage === 'string'
+                ? errorMessage
+                : JSON.stringify(errorMessage)
+        };
     }
 }
 
